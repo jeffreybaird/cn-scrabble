@@ -38,7 +38,7 @@ scrabble = Scrabble.new("../bin/input.json")
 dictionary = scrabble.dictionary
 @letters = scrabble.available_letters
 @prunes = scrabble.pruned_words
-p @prunes.class
+p scrabble.board
 
-p scrabble.words_as_values(@prunes, @letter_value_hash)
+# p scrabble.words_as_values(@prunes, @letter_value_hash)
 end
