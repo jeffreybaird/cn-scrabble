@@ -2,30 +2,15 @@ class Output
   attr_reader :output, :letter_value_hash
   def initialize
     @output = []
-    @tiles = tiles = ["i4",
-        "w5",
-        "g6",
-        "f7",
-        "s2",
-        "e1",
-        "l3",
-        "h8",
-        "n1",
-        "f7",
-        "b8",
-        "r12",
-        "u3",
-        "g6",
-        "i4",
-        "q9",
-        "o3",
-        "d2",
-        "s2",
-        "f7"]
+    @tiles = [
+     "i4","w5","g6","f7","s2","e1","l3","h8","n1","f7",
+     "b8","r12","u3","g6","i4","q9","o3","d2","s2","f7"]
+    @viable_words = Array.new
+    @viable_words = ["whiffling","hen"]
   end
   
-  def tiles_to_hash
-    @letter_value_hash = Hash[@tiles.map {|l| [l.slice(0), l.slice(1..3).to_i]}]
+  def tiles_to_hash tiles
+    @letter_value_hash = letter_as_value_hash(tiles)
   end
   
   def return_a_value(key)
@@ -55,10 +40,18 @@ class Output
   def numeric_value
     65
   end
+  def letter_as_value_hash tiles
+    Hash[tiles.map {|l| [l.slice(0), l.slice(1..3).to_i]}]
+  end
+  def word_as_value(viable_words) 
+    viable_words.map do |word|
+      word.split("").map {|c| @letter_value_hash[c]}
+    end
+  end
 end
 
 if __FILE__ == $0
   @output_new = Output.new
-  @output_new.tiles_to_hash
+  @output_new.tiles_to_hash(@tiles)
   @output_new.return_a_value("w")
 end

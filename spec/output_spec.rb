@@ -31,6 +31,7 @@ describe Output, "#scrabble board" do
     @output_boards.add_possible_board @board6
     @output_boards.add_possible_board @board7
     @output_boards.add_possible_board @board8
+    @vialble_words = ("whiffling")
 
   end
   
@@ -61,7 +62,7 @@ describe Output, "#scrabble board" do
   end
   
   it "has a derived value" do
-    @output_boards.tiles_to_hash
+    @output_boards.tiles_to_hash(@tiles)
     w = @output_boards.return_a_value("w")
     h = @output_boards.return_a_value("h")
     i = @output_boards.return_a_value("i")
@@ -71,7 +72,15 @@ describe Output, "#scrabble board" do
     g = @output_boards.return_a_value("g")
     @output_boards.numeric_value.should == w*1 + h*1 + i*1 + f*3 + f*1 + l*1 + i*1 + n*1 + g*2
   end
-  it "turns words into a list of variables"
-    
+  it "turns a tiles into a hash of keys and values" do
+    @output_boards.letter_as_value_hash(@tiles).should == {"i"=>4, "w"=>5, "g"=>6, "f"=>7, 
+                                                           "s"=>2, "e"=>1, "l"=>3, "h"=>8, 
+                                                           "n"=>1, "b"=>8, "r"=>12, "u"=>3,
+                                                           "q"=>9, "o"=>3, "d"=>2}
+  end
+  
+  it "returns a word as an array of values" do
+    @output_boards.word_as_value(@viable_words).should == []
+  end
   
 end
