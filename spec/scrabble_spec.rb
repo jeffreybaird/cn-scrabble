@@ -37,4 +37,16 @@ describe Scrabble, "#scrabble" do
       value_array = @game.words_as_values(@available_words, @valued_tiles)
       value_array[0] == [2,9,2,8,2,7,3]
     end
+    
+    it "returns an index of letters > 4" do
+      @game.starting_points[0].should == [[0, 1], [0, 3], [0, 5]]
+    end
+    
+    it "returns a letter based on an index" do
+      @game.returns_a_letter(0,0).should == "u"
+    end
+    
+    it "places a letter on the board" do
+      @game.place_a_letter.should == [0,1]
+    end
 end
