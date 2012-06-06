@@ -35,11 +35,7 @@ attr_accessor :scrabble_board
   end  
     @space_index
  end
- 
-def place_a_word(k,y)
- 35
-end
- 
+
 end
 
 if __FILE__ == $0

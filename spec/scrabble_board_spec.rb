@@ -41,8 +41,6 @@ describe ScrabbleBoard, "#scrabble board" do
     @board.index_of_best_spaces[0].should ==  [0,4]
   end
   
-  it "places a word starting at [0],[0] going right and calculates the value" do
-    @board.place_a_word([0],[0]).should == 35
-  end
+
   
 end

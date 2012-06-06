@@ -45,6 +45,15 @@ class Scrabble
     @letter_index
   end
   
+  def returns_a_letter word_index, char_index
+    word = []
+    word = pruned_words[word_index]
+    word[char_index]
+  end
+  
+  def place_a_word(k,y)
+   35
+  end
 end
 
 if __FILE__ == $0
@@ -59,5 +68,8 @@ p @prunes = scrabble.pruned_words
 p @word_values
 @test = scrabble.starting_points
 p @test[0]
+p scrabble.returns_a_letter(0,1)
+
+
 # p scrabble.words_as_values(@prunes, @letter_value_hash)
 end
