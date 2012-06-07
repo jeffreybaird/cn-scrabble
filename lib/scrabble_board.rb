@@ -40,9 +40,10 @@ end
 
 if __FILE__ == $0
   @scrabble_game = Scrabble.new("../bin/input.json")
-  @scrabble_board = ScrabbleBoard.new(@scrabble_game.board)
- p @scrabble_board.index_of_best_spaces
-  @scrabble_board.convert_board_to_array
+  board = ScrabbleBoard.new(@scrabble_game.board)
+  board.index_of_best_spaces
+  board = board.convert_board_to_array
   @array_of_strings
+  @scrabble_game.place_a_word(0,board,0,0)
   
 end

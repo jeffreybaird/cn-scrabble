@@ -2,8 +2,9 @@ require_relative '../lib/scrabble_board'
 describe ScrabbleBoard, "#scrabble board" do
   
   before do
-    @scrabble_game = Scrabble.new("bin/input.json")
-    @board = ScrabbleBoard.new(@scrabble_game.board)
+    @game = Scrabble.new("bin/input.json")
+    @board = ScrabbleBoard.new(@game.board)
+    @array_board = @board.convert_board_to_array
   end
   
   it "has a class called ScrabbleBoard" do
@@ -26,7 +27,7 @@ describe ScrabbleBoard, "#scrabble board" do
   end
   
   it "Becomes and array of arrays" do
-    @board.convert_board_to_array.should ==
+    @array_board.should ==
     [[1, 1, 1, 1, 2, 1, 1, 1, 3, 1, 1, 1],
      [1, 1, 1, 1, 4, 1, 1, 1, 1, 2, 1, 2],
      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -41,6 +42,8 @@ describe ScrabbleBoard, "#scrabble board" do
     @board.index_of_best_spaces[0].should ==  [0,4]
   end
   
-
+  it "places a word starting at [0][0] going right and calculates the value" do
+    @game.place_a_word(0,@array_board,0,0).should == 35
+  end
   
 end

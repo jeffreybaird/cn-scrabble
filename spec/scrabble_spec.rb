@@ -46,9 +46,7 @@ describe Scrabble, "#scrabble" do
       @game.returns_a_letter(0,1).should == "u"
     end
 
-    it "places a word starting at [0],[0] going right and calculates the value" do
-      @game.place_a_word(1,0,0).should == 35
-    end
+
     
     
     
