@@ -47,11 +47,19 @@ describe ScrabbleBoard, "#scrabble board" do
   end
   
   it "places a word vertically" do
-    @game.place_a_word_vert(@array_board,0,0,1).should == 47
+    @game.place_a_word_vert(@array_board,0,0,4).should == 62
   end
   
-  it "raises an exception if it is off the board" do
-    @game.place_a_word_horiz(@array_board,0,0,6).should == "off the board"
+  it "returns 0 if it is off the board horizontally" do
+    @game.place_a_word_horiz(@array_board,0,0,7).should == 0
+  end
+  
+  it "returns 0 if it is off the board vertically" do
+    @game.place_a_word_vert(@array_board,0,8,0).should == 0
+  end
+  
+  it "places a word on every spot on the board" do
+    @game.word_on_board(@array_board, 0).flatten.pop.should == 63
   end
   
 end

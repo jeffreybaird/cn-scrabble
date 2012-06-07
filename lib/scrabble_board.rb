@@ -44,6 +44,7 @@ if __FILE__ == $0
   board.index_of_best_spaces
   board = board.convert_board_to_array
   @array_of_strings
-  p @scrabble_game.place_a_word_horiz(0,board,0,12)
+  @scrabble_game.place_a_word_horiz(board, 0,0,12)
+  p @scrabble_game.place_each_word_on_board(board)
   
 end

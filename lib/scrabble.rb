@@ -7,6 +7,7 @@ class Scrabble
     @tiles = @scrabble_hash[          "tiles"]
     @dictionary = @scrabble_hash["dictionary"]
     @board = @scrabble_hash[          "board"]
+    @word_scores = Array.new
   end
   
   def tiles_to_values
@@ -55,8 +56,12 @@ class Scrabble
    word = words_as_values(pruned_words, tiles_to_values)
    value = 0
    word[word_index].each_with_index do |letter,i|
-    raise "off the board" if board[y_axis][x_axis+i] == nil
-    value += (letter*board[y_axis][x_axis+i])
+    if board[y_axis][x_axis+i].to_i > 0
+      value += (letter*board[y_axis][x_axis+i])
+    else
+      value = 0
+      break
+    end
    end
    value
   end
@@ -65,10 +70,36 @@ class Scrabble
     word = words_as_values(pruned_words, tiles_to_values)
     value = 0
     word[word_index].each_with_index do |letter,i|
-     value += (letter*board[y_axis+i][x_axis])
+      if board[y_axis+i] == nil
+        value = 0
+        break
+      else
+        value += (letter*board[y_axis+i][x_axis])
+      end
     end
     value
   end
+  
+  def word_on_board board, word_index
+    computed_word_value = Array.new
+    board.each_with_index do |row, k|
+      row.each_with_index do |column, y|
+        computed_word_value.push(place_a_word_horiz(board, word_index, k, y))
+        computed_word_value.push(place_a_word_vert( board, word_index, k, y))
+      end
+    end
+    computed_word_value.delete_if {|x| x == 0}
+    @word_scores << computed_word_value.sort
+  end
+  
+  def place_each_word_on_board board
+    words = pruned_words
+    words.each_with_index do |word, word_index|
+      word_on_board(board, word_index)
+    end
+    @word_scores.flatten.sort
+  end
+  
 end
 
 
