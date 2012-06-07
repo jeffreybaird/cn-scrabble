@@ -42,8 +42,16 @@ describe ScrabbleBoard, "#scrabble board" do
     @board.index_of_best_spaces[0].should ==  [0,4]
   end
   
-  it "places a word starting at [0][0] going right and calculates the value" do
-    @game.place_a_word(0,@array_board,0,0).should == 35
+  it "places a word starting at [0][3] going right and calculates the value" do
+    @game.place_a_word_horiz(@array_board,0,0,3).should == 56
+  end
+  
+  it "places a word vertically" do
+    @game.place_a_word_vert(@array_board,0,0,1).should == 47
+  end
+  
+  it "raises an exception if it is off the board" do
+    @game.place_a_word_horiz(@array_board,0,0,6).should == "off the board"
   end
   
 end
