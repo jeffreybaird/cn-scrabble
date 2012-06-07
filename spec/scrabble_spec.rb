@@ -47,7 +47,9 @@ describe Scrabble, "#scrabble" do
     end
 
     it "places a word starting at [0],[0] going right and calculates the value" do
-      @game.place_a_word([0],[0]).should == 35
+      @game.place_a_word(1,0,0).should == 35
     end
+    
+    
     
 end

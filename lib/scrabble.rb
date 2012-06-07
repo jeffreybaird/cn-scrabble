@@ -51,8 +51,15 @@ class Scrabble
     word[char_index]
   end
   
-  def place_a_word(k,y)
-   35
+  def place_a_word(word_index,board_x_axis,board_y_axis)
+   word = words_as_values(pruned_words, tiles_to_values)
+   value = 0
+   word[word_index].each_with_index do |letter,i|
+    y_axis = board_y_axis
+    y_axis += i
+    test = (letter*@board[board_x_axis][board_y_axis].to_i)
+    value += test
+   end
   end
 end
 
@@ -61,6 +68,7 @@ scrabble = Scrabble.new("../bin/input.json")
 @valued_tiles = scrabble.tiles
 @letter_value_hash = scrabble.tiles_to_values
 @tiles = scrabble.tiles
+p scrabble.board
 dictionary = scrabble.dictionary
 @letters = scrabble.available_letters
 p @prunes = scrabble.pruned_words
@@ -69,6 +77,7 @@ p @word_values
 @test = scrabble.starting_points
 p @test[0]
 p scrabble.returns_a_letter(0,1)
+scrabble.place_a_word(0,0,0)
 
 
 # p scrabble.words_as_values(@prunes, @letter_value_hash)
