@@ -1,6 +1,8 @@
 require 'json'
+require_relative 'scrabble_board'
 class Scrabble
   attr_accessor :tiles, :dictionary, :board
+  attr_reader :word_scores
   
   def initialize filename
     @scrabble_hash = JSON.parse(File.read(filename))
@@ -55,6 +57,7 @@ class Scrabble
   def place_a_word_horiz(board, word_index, y_axis, x_axis)
    word = words_as_values(pruned_words, tiles_to_values)
    value = 0
+   orientation = 90
    word[word_index].each_with_index do |letter,i|
     if board[y_axis][x_axis+i].to_i > 0
       value += (letter*board[y_axis][x_axis+i])
@@ -63,12 +66,14 @@ class Scrabble
       break
     end
    end
-   value
+    @word_scores << Output.new(pruned_words[word_index], y_axis, x_axis, value, orientation)
+    value
   end
   
   def place_a_word_vert(board, word_index, y_axis, x_axis)
     word = words_as_values(pruned_words, tiles_to_values)
     value = 0
+    orientation = 180
     word[word_index].each_with_index do |letter,i|
       if board[y_axis+i] == nil
         value = 0
@@ -77,6 +82,7 @@ class Scrabble
         value += (letter*board[y_axis+i][x_axis])
       end
     end
+    @word_scores << Output.new(pruned_words[word_index], y_axis, x_axis, value, orientation)
     value
   end
   
@@ -88,8 +94,6 @@ class Scrabble
         computed_word_value.push(place_a_word_vert( board, word_index, k, y))
       end
     end
-    computed_word_value.delete_if {|x| x == 0}
-    @word_scores << computed_word_value.sort
   end
   
   def place_each_word_on_board board
@@ -97,28 +101,24 @@ class Scrabble
     words.each_with_index do |word, word_index|
       word_on_board(board, word_index)
     end
-    @word_scores.flatten.sort
+    word_scores
   end
   
+  def remove_zero_scores array_of_scores
+    array_of_scores.delete_if {|output| output.score_zero?}
+  end
+  
+  def rank_by_score array_of_scores
+    array_of_scores.sort
+  end
 end
 
 
 if __FILE__ == $0
-scrabble = Scrabble.new("../bin/input.json")
-@valued_tiles = scrabble.tiles
-@letter_value_hash = scrabble.tiles_to_values
-@tiles = scrabble.tiles
-p scrabble.board
-dictionary = scrabble.dictionary
-@letters = scrabble.available_letters
-p @prunes = scrabble.pruned_words
-@word_values = scrabble.words_as_values(scrabble.pruned_words, scrabble.tiles_to_values)
-p @word_values
-@test = scrabble.starting_points
-p @test[0]
-p scrabble.returns_a_letter(0,1)
-
-
-
-# p scrabble.words_as_values(@prunes, @letter_value_hash)
+  @output_new = Output.new("Sausilto", 0, 0, 35, 90)
+  @output_two = Output.new("Sausilto", 0, 0, 35, 180)
+  @game = Scrabble.new("../bin/input.json")
+  @board = ScrabbleBoard.new(@game.board)
+  p @output_new.print_horizontal_word(@board.convert_board_to_array)
+  p @output_new.print_vertical_word(@board.convert_board_to_array)
 end

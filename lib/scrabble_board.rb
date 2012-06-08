@@ -1,4 +1,4 @@
-require_relative 'scrabble.rb'
+require_relative 'output'
 class ScrabbleBoard
 
 attr_accessor :scrabble_board
@@ -39,12 +39,5 @@ attr_accessor :scrabble_board
 end
 
 if __FILE__ == $0
-  @scrabble_game = Scrabble.new("../bin/input.json")
-  board = ScrabbleBoard.new(@scrabble_game.board)
-  board.index_of_best_spaces
-  board = board.convert_board_to_array
-  @array_of_strings
-  @scrabble_game.place_a_word_horiz(board, 0,0,12)
-  p @scrabble_game.place_each_word_on_board(board)
-  
+
 end

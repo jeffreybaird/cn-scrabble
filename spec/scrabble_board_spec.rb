@@ -1,4 +1,6 @@
-require_relative '../lib/scrabble_board'
+require_relative '../lib/scrabble'
+require_relative '../lib/output'
+
 describe ScrabbleBoard, "#scrabble board" do
   
   before do
@@ -58,8 +60,19 @@ describe ScrabbleBoard, "#scrabble board" do
     @game.place_a_word_vert(@array_board,0,8,0).should == 0
   end
   
-  it "places a word on every spot on the board" do
-    @game.word_on_board(@array_board, 0).flatten.pop.should == 63
-  end
+  context "the words are placed" do
+    before do
+      @game = Scrabble.new("bin/input.json")
+      @board = ScrabbleBoard.new(@game.board)
+      @array_board = @board.convert_board_to_array
+      @final_array = @game.place_each_word_on_board(@array_board)
+    end
+    it "returns every possible word placement" do
+      @final_array.size.should == 1080
+    end
   
+    it "doesn't return any results with a score of zero" do
+      @game.remove_zero_scores(@final_array).sample.score.should_not == 0
+    end
+  end
 end
