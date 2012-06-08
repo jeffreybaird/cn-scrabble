@@ -10,6 +10,7 @@ class Scrabble
     @dictionary = @scrabble_hash["dictionary"]
     @board = @scrabble_hash[          "board"]
     @word_scores = Array.new
+    @top_eight = Array.new
   end
   
   def tiles_to_values
@@ -104,12 +105,26 @@ class Scrabble
     word_scores
   end
   
+  def print_top_eight board
+    word_scores = place_each_word_on_board(board)
+    word_scores = remove_zero_scores(word_scores)
+    @top_eight = word_scores.sort[0..7]
+    @top_eight
+  end
+  
   def remove_zero_scores array_of_scores
     array_of_scores.delete_if {|output| output.score_zero?}
   end
   
   def rank_by_score array_of_scores
     array_of_scores.sort
+  end
+  
+  def print_out_each_word board, top_eight
+    result = top_eight.map do |output|
+      p "#{output.print_out_a_word(board)}\n\n"
+    end
+    result
   end
 end
 
@@ -119,6 +134,8 @@ if __FILE__ == $0
   @output_two = Output.new("Sausilto", 0, 0, 35, 180)
   @game = Scrabble.new("../bin/input.json")
   @board = ScrabbleBoard.new(@game.board)
-  p @output_new.print_horizontal_word(@board.convert_board_to_array)
-  p @output_new.print_vertical_word(@board.convert_board_to_array)
+  @board = @board.convert_board_to_array
+  @game.print_top_eight(@board)
+  # @output_new.print_horizontal_word(@board
+  # @output_new.print_vertical_word(@board)
 end

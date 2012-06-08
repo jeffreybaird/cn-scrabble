@@ -1,5 +1,5 @@
 class Output
-  attr_accessor :score
+  attr_accessor :score, :word
   def initialize word, y_axis, x_axis, score, orientation
     @orientation = orientation
     @word = word
@@ -10,7 +10,7 @@ class Output
   end
   
   def to_s
-    "#{@word} at location #{@y_axis},#{@x_axis} (#{@orientation}) with a score of #{@score}\n"
+    "#{@word} at location #{@y_axis},#{@x_axis} (#{@orientation}) with a score of #{@score}"
   end
   
   def score_zero?
@@ -19,16 +19,15 @@ class Output
   
   def <=> (other)
     other.score <=> score
-  end
-  
-  
+  end  
   
   def print_out_a_word board
     if @orientation == 90
-      print_horizontal_word(board)
+      board = print_horizontal_word(board)
     else
-      print_vertical_word(board)
+      board = print_vertical_word(board)
     end
+    format_print_out(board)
   end
   
   def print_horizontal_word board
@@ -46,6 +45,10 @@ class Output
     board
   end
   
+
+  def format_print_out board
+    board.flatten.join(" ")
+  end
 end
 
 if __FILE__ == $0
