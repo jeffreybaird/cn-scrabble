@@ -22,8 +22,7 @@ class Scrabble
   
   def pruned_words
     words = Array[@dictionary].flatten
-    letters = available_letters
-    letters.each {|e| words = words.map {|w| w.sub(e, '')}}
+    available_letters.each {|e| words = words.map {|w| w.sub(e, '')}}
     @viable_words = words.each_with_index.collect {|w,k| @dictionary[k] if w==""}.compact
   end
       
