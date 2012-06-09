@@ -7,7 +7,7 @@ describe Output, "#scrabble board" do
     @answer_array = [@answer, @answer2]
   end
  it "prints out a score statement" do
-   @answer.to_s.should == "jeffrey at location 0,0 (90) with a score of 10000\n"
+   @answer.to_s.should == "jeffrey at location 0,0 (90) with a score of 10000"
  end
  
  it "checks for zero" do

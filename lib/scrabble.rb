@@ -5,10 +5,9 @@ class Scrabble
   attr_reader :word_scores
   
   def initialize filename
-    @scrabble_hash = JSON.parse(File.read(filename))
-    @tiles = @scrabble_hash[          "tiles"]
-    @dictionary = @scrabble_hash["dictionary"]
-    @board = @scrabble_hash[          "board"]
+    scrabble_parsed = JSON.parse(File.read(filename))
+    @tiles = scrabble_parsed[          "tiles"]
+    @dictionary = scrabble_parsed["dictionary"]
     @word_scores = Array.new
     @top_eight = Array.new
   end
@@ -32,27 +31,6 @@ class Scrabble
     viable_words.map do |word|
       word.split("").map {|c| letter_value_hash[c]}
     end
-  end
-  
-  def starting_points
-    word_values = words_as_values(pruned_words, tiles_to_values)
-    @letter_index = []  
-    word_values.each_with_index.map do |word, k|
-      array = []
-      word.each_with_index.map do |letter, y|
-        if letter > 4
-          array << [k,y]
-        end
-      end
-      @letter_index << array
-    end
-    @letter_index
-  end
-  
-  def returns_a_letter word_index, char_index
-    word = []
-    word = pruned_words[word_index]
-    word[char_index]
   end
   
   def place_a_word_horiz(board, word_index, y_axis, x_axis)
@@ -87,7 +65,7 @@ class Scrabble
     value
   end
   
-  def word_on_board board, word_index
+  def placed_value board, word_index
     computed_word_value = Array.new
     board.each_with_index do |row, k|
       row.each_with_index do |column, y|
@@ -100,7 +78,7 @@ class Scrabble
   def place_each_word_on_board board
     words = pruned_words
     words.each_with_index do |word, word_index|
-      word_on_board(board, word_index)
+      word_scores = placed_value(board, word_index)
     end
     word_scores
   end
@@ -109,7 +87,6 @@ class Scrabble
     word_scores = place_each_word_on_board(board)
     word_scores = remove_zero_scores(word_scores)
     @top_eight = word_scores.sort[0..7]
-    @top_eight
   end
   
   def remove_zero_scores array_of_scores
@@ -120,22 +97,10 @@ class Scrabble
     array_of_scores.sort
   end
   
-  def print_out_each_word board, top_eight
+  def print_out_each_word filename, top_eight
     result = top_eight.map do |output|
-      p "#{output.print_out_a_word(board)}\n\n"
+      output.print_out_a_word(filename)
     end
-    result
+    p result
   end
-end
-
-
-if __FILE__ == $0
-  @output_new = Output.new("Sausilto", 0, 0, 35, 90)
-  @output_two = Output.new("Sausilto", 0, 0, 35, 180)
-  @game = Scrabble.new("../bin/input.json")
-  @board = ScrabbleBoard.new(@game.board)
-  @board = @board.convert_board_to_array
-  @game.print_top_eight(@board)
-  # @output_new.print_horizontal_word(@board
-  # @output_new.print_vertical_word(@board)
 end

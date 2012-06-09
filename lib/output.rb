@@ -21,17 +21,20 @@ class Output
     other.score <=> score
   end  
   
-  def print_out_a_word board
+  def print_out_a_word filename
+    scrabble = ScrabbleBoard.new(filename)
+    scrabble = scrabble.convert_board_to_array
+    scrabble << ["\n"]
     if @orientation == 90
-      board = print_horizontal_word(board)
+      board = print_horizontal_word(scrabble)
     else
-      board = print_vertical_word(board)
+      board = print_vertical_word(scrabble)
     end
     format_print_out(board)
   end
   
   def print_horizontal_word board
-    board[@y_axis][@x_axis..@x_axis+@length] = @word.split('')
+    board[@y_axis][@x_axis..@x_axis+(@length-1)] = @word.split('')
     board
   end
   
@@ -45,12 +48,11 @@ class Output
     board
   end
   
-
   def format_print_out board
-    board.flatten.join(" ")
+    board.map do |each_board|
+      new_board = each_board.join(" ")
+      new_board
+    end
   end
-end
-
-if __FILE__ == $0
-
+  
 end

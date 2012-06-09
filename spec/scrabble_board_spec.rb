@@ -5,7 +5,7 @@ describe ScrabbleBoard, "#scrabble board" do
   
   before do
     @game = Scrabble.new("bin/input.json")
-    @board = ScrabbleBoard.new(@game.board)
+    @board = ScrabbleBoard.new("bin/input.json")
     @array_board = @board.convert_board_to_array
   end
   
@@ -40,10 +40,7 @@ describe ScrabbleBoard, "#scrabble board" do
      [1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2], 
      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
   end
-  it "Returns the coordinates of all spaces > 1" do
-    @board.index_of_best_spaces[0].should ==  [0,4]
-  end
-  
+
   it "places a word starting at [0][3] going right and calculates the value" do
     @game.place_a_word_horiz(@array_board,0,0,3).should == 56
   end
@@ -63,7 +60,7 @@ describe ScrabbleBoard, "#scrabble board" do
   context "the words are placed" do
     before do
       @game = Scrabble.new("bin/input.json")
-      @board = ScrabbleBoard.new(@game.board)
+      @board = ScrabbleBoard.new("bin/input.json")
       @array_board = @board.convert_board_to_array
       @final_array = @game.place_each_word_on_board(@array_board)
     end

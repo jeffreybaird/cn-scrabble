@@ -1,17 +1,19 @@
+require 'json'
 require_relative 'output'
 class ScrabbleBoard
 
-attr_accessor :scrabble_board
- def initialize scrabble_board
-   @scrabble_board = scrabble_board
+attr_accessor :board
+ def initialize filename
+   scrabble = JSON.parse(File.read(filename))
+   @board = scrabble[          "board"]
  end
 
  def to_s
-   scrabble_board
+   @board
  end
  
  def convert_to_strings
-   @array_of_strings = @scrabble_board.collect do |string|
+   @array_of_strings = @board.collect do |string|
      string = string.split
    end
  end
@@ -22,22 +24,5 @@ attr_accessor :scrabble_board
         number_string.to_i
       end
    end
- end
- 
- def index_of_best_spaces
-  @space_index = []
-  convert_board_to_array.each_with_index.map do |array, k|
-    array.each_with_index.map do |space, y|
-      if space.to_i > 1
-        @space_index << [k,y]
-      end
-    end
-  end  
-    @space_index
- end
-
-end
-
-if __FILE__ == $0
-
+ end 
 end
