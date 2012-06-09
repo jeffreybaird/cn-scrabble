@@ -24,7 +24,7 @@ class Output
   def print_out_a_word filename
     scrabble = ScrabbleBoard.new(filename)
     scrabble = scrabble.convert_board_to_array
-    scrabble << ["\n"]
+    scrabble << ["\n","#{to_s}","\n","\n"]
     if @orientation == 90
       board = print_horizontal_word(scrabble)
     else
