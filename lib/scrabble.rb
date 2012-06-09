@@ -9,7 +9,6 @@ class Scrabble
     @tiles = scrabble_parsed[          "tiles"]
     @dictionary = scrabble_parsed["dictionary"]
     @word_scores = Array.new
-    @top_eight = Array.new
   end
   
   def tiles_to_values
@@ -83,9 +82,7 @@ class Scrabble
   end
   
   def print_top_eight board
-    word_scores = place_each_word_on_board(board)
-    word_scores = remove_zero_scores(word_scores)
-    @top_eight = word_scores.sort[0..7]
+    remove_zero_scores(place_each_word_on_board(board)).sort[0..7]
   end
   
   def remove_zero_scores array_of_scores
@@ -100,6 +97,6 @@ class Scrabble
     result = top_eight.map do |output|
       output.print_out_a_word(filename)
     end
-    p result
+    result
   end
 end

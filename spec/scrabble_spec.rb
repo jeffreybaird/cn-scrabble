@@ -7,7 +7,7 @@ describe Scrabble, "#scrabble" do
    @available_words = @game.pruned_words
   end
   
-    it "initializes a scrabble_tiles method" do
+    it "initializes a scrabble class" do
       @game.class.should == Scrabble
     end
   

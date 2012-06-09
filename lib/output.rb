@@ -53,6 +53,5 @@ class Output
       new_board = each_board.join(" ")
       new_board
     end
-  end
-  
+  end 
 end
