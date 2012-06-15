@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require_relative "../lib/scrabble"
 @game = Scrabble.new("bin/input.json")
 scrabble = ScrabbleBoard.new("bin/input.json")
@@ -8,6 +10,8 @@ def print_final_answer(to_file="FINAL_OUTPUT.txt")
   File.open(to_file, "w") do |file|
     file.puts @output
   end
+  cmd = "cat 'FINAL_OUTPUT.txt'"
+  exec(cmd)
 end
 
 print_final_answer
